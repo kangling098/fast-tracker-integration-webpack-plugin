@@ -1,6 +1,6 @@
 {
   "name": "fast-tracker-integration-webpack-plugin",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/kangling098/fast-tracker-integration-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/kangling098/fast-tracker-integration-webpack-plugin#readme"
+  "homepage": "https://github.com/kangling098/fast-tracker-integration-webpack-plugin#readme",
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "webpack": "^5.4.0",
+    "ali-oss": "6.1.0",
+    "archiver": "4.0.1",
+    "chalk": "2.4.2",
+    "verror": "1.10.0"
+  }
 }

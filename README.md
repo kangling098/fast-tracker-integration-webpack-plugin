@@ -39,10 +39,10 @@ npm i fast-tracker-integration-webpack-plugin -D
 ```
 在webpack中
 ```js
-import fastTrackerIntegrationWebpackPlugin from 'fast-tracker-integration-webpack-plugin';
+import FastTrackerIntegrationWebpackPlugin from 'fast-tracker-integration-webpack-plugin';
 import path from 'path';
 plugins: [
-  new fastTrackerIntegrationWebpackPlugin({
+  new FastTrackerIntegrationWebpackPlugin({
     // 公共参数
     product_code: your product_code,
     app_code: your app_code,
@@ -59,13 +59,13 @@ plugins: [
 ```
 在umi中 config.js
 ```js
-import fastTrackerIntegrationWebpackPlugin from 'fast-tracker-integration-webpack-plugin';
+import FastTrackerIntegrationWebpackPlugin from 'fast-tracker-integration-webpack-plugin';
 import path from 'path';
 export default {
   chainWebpack: config => { // 使用fast-tracker-integration-webpack-plugin插件
     config
     .plugin('fast-tracker-integration-webpack-plugin') 
-    .use(new fastTrackerIntegrationWebpackPlugin({
+    .use(new FastTrackerIntegrationWebpackPlugin({
       // 公共参数
       product_code: your product_code,
       app_code: your app_code,

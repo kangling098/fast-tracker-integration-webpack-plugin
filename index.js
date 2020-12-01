@@ -15,7 +15,7 @@ const DEFAULT_TIME_OUT = 300000;
 // 放在oss对应项目根目录用来进行比对的list目录名称
 const UPLOAD_FILE_LIST_NAME = '__fast_last_upload_list_cache__.txt';
 // 待上传的zip文件名
-const ZIIPED_FILE_NAME = 'fast_source_map.zip';
+const ZIIPED_FILE_NAME = `fast_source_map${Date.now()}${Math.random()}.zip`;
 
 class FastTrackerIntegrationWebpackPlugin {
   constructor(options) {
@@ -32,12 +32,10 @@ class FastTrackerIntegrationWebpackPlugin {
       // 标准探针(mpvue探针)勾子回调函数
       const mainFunc = this.mainFunc.bind(this);
       if (this.interOptions.integration_tracker === 'offline' || this.interOptions.integration_tracker === 'online') {
-    console.log(21111)
 
         // 兼容低版本webpack
         if (compiler.hooks && compiler.hooks.emit) {
           compiler.hooks.emit.tapAsync('fast-tracker-integration-webpack-plugin', mainFunc);
-    console.log(2222)
 
         } else {
           compiler.plugin('emit', mainFunc);
@@ -93,9 +91,10 @@ class FastTrackerIntegrationWebpackPlugin {
       env_code,
       type,
       test_tracker_url,
+      dev,
     } = this.interOptions
     let data = '';
-    const trackerUrl = !!test_tracker_url ? test_tracker_url : `https://mic-open.mypaas.com.cn/web-log-tracker/${product_code}/${app_code}/myWebLogTracker.min.${env_code}${type === 'wxmp' ? '.wxmp': ''}.js`;
+    const trackerUrl = !!test_tracker_url ? test_tracker_url : `https://mic-open.mypaas.com.cn/web-log-tracker${dev ? '-test': ''}/${product_code}/${app_code}/myWebLogTracker.min.${env_code}${type === 'wxmp' ? '.wxmp': ''}.js`;
     console.log(`探针文件加载中 ${trackerUrl}`)
     try {
       data = await promiseRequest(trackerUrl);
@@ -173,8 +172,9 @@ class FastTrackerIntegrationWebpackPlugin {
         env_code,
         product_code,
         app_code,
+        dev
       } = this.interOptions;
-      const trackerScriptTag = `<script src="https://mic-open.mypaas.com.cn/web-log-tracker/${product_code}/${app_code}/myWebLogTracker.min${!!env_code ? `.${env_code}`: ''}.js"></script>`
+      const trackerScriptTag = `<script src="https://mic-open.mypaas.com.cn/web-log-tracker${dev ? '-test': ''}/${product_code}/${app_code}/myWebLogTracker.min${!!env_code ? `.${env_code}`: ''}.js"></script>`
   
       // 对于
       file_path_arr.forEach(filePath => {
@@ -209,7 +209,6 @@ class FastTrackerIntegrationWebpackPlugin {
 
   // html文件获取.探针获取、写入 主程序
   async mainFunc(compilation, cb) {
-    console.log(233333)
     // 如果是在线探针插入(不需要获取探针文件,直接生成探针链接就可以)
     if (this.interOptions.integration_tracker === 'online') {
       await this.setOnlineTracker(compilation);
@@ -241,8 +240,9 @@ class FastTrackerIntegrationWebpackPlugin {
       env_code,
       product_code,
       app_code,
+      dev
     } = options
-    const returnOpts = { available: true, test_tracker_url, product_code, app_code };
+    const returnOpts = { available: true, test_tracker_url, product_code, app_code, dev };
     if (!app_code) {
       fwarn(`app_code 必填`);
       returnOpts.available = false;
@@ -300,7 +300,7 @@ class FastTrackerIntegrationWebpackPlugin {
     }
 
     // 需加载探针文件html
-    if ((options.integration_tracker === 'offline' || options.integration_tracker === 'wxmp' || options.integration_tracker === 'online') && Array.isArray(options.file_path_arr) && options.file_path_arr.length) {
+    if (Array.isArray(options.file_path_arr) && options.file_path_arr.length) {
       returnOpts.file_path_arr = options.file_path_arr;
     } else {
       fwarn(`file_path_arr 必填`);

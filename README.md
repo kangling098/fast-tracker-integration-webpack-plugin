@@ -18,7 +18,7 @@ fast-tracker-integration-webpack-plugin是基于webpack4开发的webpack插件�
 提示：避免在开发环境开启update_sourcemap功能,否则由于上传文件可能导致热加载时间过长，在生产环境再启用该插件
 ## 配置项
 
-<div style="width: 120px">配置</div> | <div style="width: 60px">字段类型</div> | 说明 | <div style="min-width: 60px">是否必填</div> | <div style="width: 60px">默认值</div>
+配置| 字段类型 | 说明 | 是否必填 | 默认值
 ---|---|---|---|---
 app_code (通用配置参数) | string | 应用编码 | 是 | 无默认值
 product_code (通用配置参数) | string | 产品编码 | 是 | 无默认值
